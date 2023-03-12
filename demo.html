@@ -1,0 +1,25 @@
+<html>
+<script src="qz-tray.js"></script>
+<script>
+function print(){
+
+    qz.websocket.connect().then(()=> {
+        return qz.printers.find("XP-80 (copy 2)");
+    }).then((found) => {
+        var config = qz.configs.create(found);
+        var data = [{
+            type: 'pixel',
+            format: 'html',
+            flavor: 'plain', // or 'plain' if the data is raw HTML
+            data: '<h1>hello from javascript</h1>'
+    }];
+    return qz.print(config,data);
+    }).catch((e)=> {
+        alert(e);
+    }).finally(()=> {
+        return qz.websocket.disconnect();
+    })
+}
+</script>
+<button onclick ="print();"> print</button>
+</html>
